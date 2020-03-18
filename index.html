@@ -1,25 +1,120 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Supra Twiddler</title>
+    <link rel="stylesheet" href="css/style.css">
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
   </head>
   <body>
+    <img class="twitterLogo" src="css/twitterLogo.png" alt="twitterLogo">
+    <input type="text" id="newTweet" placeholder="Post your tweets">
+    <button class="generator btn btn-two">Submit</button>
+    <br/>
+    <div id="page-container"></div>
     <script>
-
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
+        var $div = $('div');
+        $div.html('');
+
+        function getTimeRem(postTime) {
+            var postedTime = new Date();
+            var formattedTime = '';
+            var diffInSec = Math.floor((postedTime.getTime() - postTime.getTime()) / 1000);
+            if (diffInSec < 60) {
+                formattedTime = diffInSec + ' second(s) ago';
+            } else if (diffInSec < 3600) {
+                formattedTime = Math.floor(diffInSec / 60) + ' minute(s) ago';
+            } else if (diffInSec < 86400) {
+                formattedTime = Math.floor(diffInSec / 3600) + ' hour(s) ago';
+            } else {
+                formattedTime = Math.floor(diffInSec / 86400) + ' day(s) ago';
+            }
+            return formattedTime;
+        }
+        
+        function loadTime() {
+          var today = new Date();
+          var date = today.getDate();
+          var month = today.getMonth();
+          var year = today.getFullYear();
+          var hours = today.getHours();
+          var minutes = today.getMinutes();
+          var seconds = today.getSeconds();
+
+          var ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12;
+          hours = hours ? hours : 12;
+
+          var clock = date + '-' + month + '-' + year + '  ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+          return clock;
+        }
 
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          var $tweetUser = $('<h5 class="tweetUser"></h5>');
+          var $tweetMsg = $('<div class="tweetMsg"></div>');
+          var $tweetDate = $('<span class="tweetDate"></span>');
+          var $postedTime = $('<span class="postedTime"></span>');
+          
+          $tweetUser.text('@' + tweet.user);
+          $tweetMsg.text(tweet.message);
+          $tweetDate.text(loadTime());
+          $postedTime.text(getTimeRem(tweet.created_at));
+          
+          $tweetUser.appendTo($div);
+          $tweetMsg.appendTo($div);
+          $tweetDate.appendTo($tweetUser);
+          $postedTime.appendTo($tweetUser);
           index -= 1;
         }
 
+        function visitorTweet() {
+            var username = 'anonymous';
+            var visitorTweet = {
+                user: username,
+                message: $('#newTweet').val(),
+                created_at: loadTime()
+            };
+
+            streams.users[username] = streams.users[username] || [];
+            addTweet(visitorTweet);
+            console.log(visitorTweet);
+        }
+
+        function updateTweet() {
+            var lastTweet = streams.home[streams.home.length - 1];
+            var $atweetUser = $('<h5 class="tweetUser"></h5>');
+            var $atweetMsg = $('<div class="tweetMsg"></div>');
+            var $atweetDate = $('<span class="tweetDate"></span>');
+            var $apostedTime = $('<span class="postedTime"></span>');
+
+            $atweetUser.text('@' + lastTweet.user);
+            $atweetMsg.text(lastTweet.message);
+            $atweetDate.text(loadTime());
+            
+            $atweetDate.appendTo($atweetUser);
+            $atweetMsg.prependTo($div);
+            $atweetUser.prependTo($div);                    
+        }
+    
+        $('button').click(visitorTweet);
+        $('button').click(function() {
+            var lastTweet = streams.home[streams.home.length - 1];
+            if (lastTweet.message !== '') {
+                updateTweet();
+            }
+        });
+        $('button').click(function() {
+            $('#newTweet').val('');
+        });
+        
+      
       });
 
     </script>

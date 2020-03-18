@@ -1,0 +1,105 @@
+body {
+    font-family: Helvetica, sans-serif;
+    background-image: url(twitter.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.twitterLogo {
+    border-radius: 25px;
+    margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 800px;
+    display: block;
+    text-align: center;
+}
+
+#page-container {
+    background: rgba(99, 101, 105, 0.3);
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.tweetUser {
+    color: rgb(222, 222, 235);
+    width: 95%;
+    margin-top: 30px;
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 10px;
+    background-color: rgba(93, 97, 110);
+    border-radius: 5px;
+}
+
+.tweetMsg {
+    color: rgb(73, 73, 75);
+    width: 95%;
+    margin: 0;
+    font-size: 18px;
+    padding: 10px;
+    background-color: rgba(235, 239, 252, 0.5);
+    border-radius: 15px;
+}
+
+
+input {
+    width: 25%;
+    margin-top: 12px;
+    margin-left: 33%;
+    padding: 10px;
+    font-size: 17px;
+    background: rgba(255, 255, 255, 0.7);
+	border: 1px solid #e9edf0;
+	border-radius: 5px;
+	height: 35px;
+    margin-bottom: 20px;
+    color:  rgb(56, 56, 59);
+}
+
+.btn {
+	border: 0.5px solid white;
+    text-decoration: none;
+    margin-top: 0;
+    margin-left: 30px;
+	font-size: 12px;
+    text-transform: uppercase;
+   
+    letter-spacing: 0.05em;
+    font-weight: bold;
+    color: #fff;
+    background-color:#025321;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+}
+
+.btn-two:hover {
+    background-color: #89e29e;
+    color: #025321;
+    font-weight: bolder;
+	transition: all 0.5s ease-in;
+}
+
+.tweetDate {
+    color: #8cf1bf;
+    font-size: 12px;
+    text-align: right;
+    margin-left: 20px;
+    font-style: italic;
+}
+
+.postedTime {
+    color: #8cf1bf;
+    background-color: rgb(92, 64, 119);
+    font-size: 12px;
+    text-align: right;
+    align-self:  right;
+    margin-left: 30px;
+    font-style: italic;
+}
