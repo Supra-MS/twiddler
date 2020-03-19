@@ -14,6 +14,7 @@
     <input type="text" id="newTweet" placeholder="Post your tweets">
     <button class="generator btn btn-two">Submit</button>
     <span id="errorMsg">This field cannot be blank</span>
+    <span id="errorMsg1">Use 10 or more characters</span>
     <br/>
     <div id="page-container"></div>
     <script>
@@ -103,17 +104,21 @@
           $atweetMsg.prependTo($div);
           $atweetUser.prependTo($div);                    
         }
-
+        
         $('button').click(function() {
           visitorTweet();
           var lastTweet = streams.home[streams.home.length - 1];
-          if (lastTweet.message !== '') {
-              $('#errorMsg').hide();
-              updateTweet();
+          if (lastTweet.message === '') {
+            $('#errorMsg').show();
+            $('#errorMsg1').hide();
+          } else if (lastTweet.message.length < 10){
+            $('#errorMsg').hide();
+            $('#errorMsg1').show();
           } else {      
-              $('#errorMsg').show();
-          }
-          
+            $('#errorMsg').hide();
+            $('#errorMsg1').hide();
+            updateTweet();
+          }  
           $('#newTweet').val('');
         });
             
