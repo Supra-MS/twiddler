@@ -103,9 +103,9 @@
           $atweetMsg.prependTo($div);
           $atweetUser.prependTo($div);                    
         }
-    
-        $('button').click(visitorTweet);
+
         $('button').click(function() {
+          visitorTweet();
           var lastTweet = streams.home[streams.home.length - 1];
           if (lastTweet.message !== '') {
               $('#errorMsg').hide();
@@ -113,8 +113,7 @@
           } else {      
               $('#errorMsg').show();
           }
-        });
-        $('button').click(function() {
+          
           $('#newTweet').val('');
         });
             
