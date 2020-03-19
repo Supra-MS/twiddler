@@ -13,6 +13,7 @@
     <img class="twitterLogo" src="css/twitterLogo.png" alt="twitterLogo">
     <input type="text" id="newTweet" placeholder="Post your tweets">
     <button class="generator btn btn-two">Submit</button>
+    <span id="errorMsg">This field cannot be blank</span>
     <br/>
     <div id="page-container"></div>
     <script>
@@ -22,19 +23,19 @@
         $div.html('');
 
         function getTimeRem(postTime) {
-            var postedTime = new Date();
-            var formattedTime = '';
-            var diffInSec = Math.floor((postedTime.getTime() - postTime.getTime()) / 1000);
-            if (diffInSec < 60) {
-                formattedTime = diffInSec + ' second(s) ago';
-            } else if (diffInSec < 3600) {
-                formattedTime = Math.floor(diffInSec / 60) + ' minute(s) ago';
-            } else if (diffInSec < 86400) {
-                formattedTime = Math.floor(diffInSec / 3600) + ' hour(s) ago';
-            } else {
-                formattedTime = Math.floor(diffInSec / 86400) + ' day(s) ago';
-            }
-            return formattedTime;
+          var postedTime = new Date();
+          var formattedTime = '';
+          var diffInSec = Math.floor((postedTime.getTime() - postTime.getTime()) / 1000);
+          if (diffInSec < 60) {
+              formattedTime = diffInSec + ' second(s) ago';
+          } else if (diffInSec < 3600) {
+              formattedTime = Math.floor(diffInSec / 60) + ' minute(s) ago';
+          } else if (diffInSec < 86400) {
+              formattedTime = Math.floor(diffInSec / 3600) + ' hour(s) ago';
+          } else {
+              formattedTime = Math.floor(diffInSec / 86400) + ' day(s) ago';
+          }
+          return formattedTime;
         }
         
         function loadTime() {
@@ -75,48 +76,49 @@
         }
 
         function visitorTweet() {
-            var username = 'anonymous';
-            var visitorTweet = {
-                user: username,
-                message: $('#newTweet').val(),
-                created_at: loadTime()
-            };
+          var username = 'anonymous';
+          var visitorTweet = {
+              user: username,
+              message: $('#newTweet').val(),
+              created_at: loadTime()
+          };
 
-            streams.users[username] = streams.users[username] || [];
-            addTweet(visitorTweet);
-            console.log(visitorTweet);
+          streams.users[username] = streams.users[username] || [];
+          addTweet(visitorTweet);
+          console.log(visitorTweet);
         }
 
         function updateTweet() {
-            var lastTweet = streams.home[streams.home.length - 1];
-            var $atweetUser = $('<h5 class="tweetUser"></h5>');
-            var $atweetMsg = $('<div class="tweetMsg"></div>');
-            var $atweetDate = $('<span class="tweetDate"></span>');
-            var $apostedTime = $('<span class="postedTime"></span>');
+          var lastTweet = streams.home[streams.home.length - 1];
+          var $atweetUser = $('<h5 class="tweetUser"></h5>');
+          var $atweetMsg = $('<div class="tweetMsg"></div>');
+          var $atweetDate = $('<span class="tweetDate"></span>');
+          var $apostedTime = $('<span class="postedTime"></span>');
 
-            $atweetUser.text('@' + lastTweet.user);
-            $atweetMsg.text(lastTweet.message);
-            $atweetDate.text(loadTime());
-            
-            $atweetDate.appendTo($atweetUser);
-            $atweetMsg.prependTo($div);
-            $atweetUser.prependTo($div);                    
+          $atweetUser.text('@' + lastTweet.user);
+          $atweetMsg.text(lastTweet.message);
+          $atweetDate.text(loadTime());
+          
+          $atweetDate.appendTo($atweetUser);
+          $atweetMsg.prependTo($div);
+          $atweetUser.prependTo($div);                    
         }
     
         $('button').click(visitorTweet);
         $('button').click(function() {
-            var lastTweet = streams.home[streams.home.length - 1];
-            if (lastTweet.message !== '') {
-                updateTweet();
-            }
+          var lastTweet = streams.home[streams.home.length - 1];
+          if (lastTweet.message !== '') {
+              $('#errorMsg').hide();
+              updateTweet();
+          } else {      
+              $('#errorMsg').show();
+          }
         });
         $('button').click(function() {
-            $('#newTweet').val('');
+          $('#newTweet').val('');
         });
-        
-      
+            
       });
-
     </script>
   </body>
 </html>

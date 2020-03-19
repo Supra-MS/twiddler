@@ -67,3 +67,65 @@ var writeTweet = function(message){
   tweet.message = message;
   addTweet(tweet);
 };
+
+function getTimeRem(postTime) {
+  var postedTime = new Date();
+  var formattedTime = '';
+  var diffInSec = Math.floor((postedTime.getTime() - postTime.getTime()) / 1000);
+  if (diffInSec < 60) {
+      formattedTime = diffInSec + ' second(s) ago';
+  } else if (diffInSec < 3600) {
+      formattedTime = Math.floor(diffInSec / 60) + ' minute(s) ago';
+  } else if (diffInSec < 86400) {
+      formattedTime = Math.floor(diffInSec / 3600) + ' hour(s) ago';
+  } else {
+      formattedTime = Math.floor(diffInSec / 86400) + ' day(s) ago';
+  }
+  return formattedTime;
+}
+
+function loadTime() {
+  var today = new Date();
+  var date = today.getDate();
+  var month = today.getMonth();
+  var year = today.getFullYear();
+  var hours = today.getHours();
+  var minutes = today.getMinutes();
+  var seconds = today.getSeconds();
+
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  var clock = date + '-' + month + '-' + year + '  ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+  return clock;
+}
+
+function visitorTweet() {
+  var username = 'anonymous';
+  var visitorTweet = {
+      user: username,
+      message: $('#newTweet').val(),
+      created_at: loadTime()
+  };
+
+  streams.users[username] = streams.users[username] || [];
+  addTweet(visitorTweet);
+  console.log(visitorTweet);
+}
+
+function updateTweet() {
+  var lastTweet = streams.home[streams.home.length - 1];
+  var $atweetUser = $('<h5 class="tweetUser"></h5>');
+  var $atweetMsg = $('<div class="tweetMsg"></div>');
+  var $atweetDate = $('<span class="tweetDate"></span>');
+  var $apostedTime = $('<span class="postedTime"></span>');
+
+  $atweetUser.text('@' + lastTweet.user);
+  $atweetMsg.text(lastTweet.message);
+  $atweetDate.text(loadTime());
+  
+  $atweetDate.appendTo($atweetUser);
+  $atweetMsg.prependTo($div);
+  $atweetUser.prependTo($div);                    
+}
